@@ -14,7 +14,7 @@ const pages = [
 export default function Page() {
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-full bg-background flex flex-col">
       <Header />
       
       <div className="flex flex-1">
