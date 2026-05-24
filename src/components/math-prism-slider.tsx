@@ -4,14 +4,27 @@ import { useEffect } from "react";
 import { Card, Slider, Text, Flex, Box } from "@radix-ui/themes";
 import { evaluate } from "mathjs";
 
-interface MathCylinderSliderProps {
+interface MathPrismSliderProps {
     radius: number[];
+    sideNumber: number[];
+    onVolumeChange: (volume: number) => void;
     onRadiusChange: (radius: number[]) => void;
 }
 
-function MathCylinderSlider({radius, onRadiusChange}: MathCylinderSliderProps) {
+function getMaxRadius(n: number) {
+    return Math.sqrt(
+        1500 /
+        (
+            n *
+            Math.sin((2 * Math.PI) / n)
+        )
+    );
+}
 
-    const expr = "750*r - pi*r^3"
+function MathPrismSlider({ radius, sideNumber, onVolumeChange, onRadiusChange }: MathPrismSliderProps) {
+
+    const expr =
+        "750*r*cos(pi/n) - n*r^3*sin(pi/n)*cos(pi/n)^2";
 
     useEffect(() => {
         catchValue()
@@ -19,14 +32,15 @@ function MathCylinderSlider({radius, onRadiusChange}: MathCylinderSliderProps) {
 
     const catchValue = () => {
         const volume = evaluate(expr, {
-            r: radius[0]
+            r: radius[0],
+            n: sideNumber[0]
         })
 
-        console.log(volume)
+        onVolumeChange(volume)
     }
 
     const min = 0;
-    const max = 15.45;
+    const max = getMaxRadius(sideNumber[0]);
     const step = 0.01;
 
     return (
@@ -36,11 +50,6 @@ function MathCylinderSlider({radius, onRadiusChange}: MathCylinderSliderProps) {
                     <Text size="2" weight="medium" color="gray">
                         Radio del cilindro
                     </Text>
-                    <Box className="bg-primary/10 px-3 py-1.5 rounded-lg">
-                        <Text size="5" weight="bold" className="text-primary tabular-nums">
-                            {radius[0].toFixed(2)}
-                        </Text>
-                    </Box>
                 </Flex>
 
                 <Box className="py-2">
@@ -59,7 +68,7 @@ function MathCylinderSlider({radius, onRadiusChange}: MathCylinderSliderProps) {
                         {min}
                     </Text>
                     <Text size="1" color="gray">
-                        {max}
+                        {max.toFixed(2)}
                     </Text>
                 </Flex>
             </Flex>
@@ -67,4 +76,4 @@ function MathCylinderSlider({radius, onRadiusChange}: MathCylinderSliderProps) {
     );
 }
 
-export default MathCylinderSlider;
+export default MathPrismSlider;

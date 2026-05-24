@@ -3,7 +3,13 @@ import { useFrame } from "@react-three/fiber";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function CylinderScene({ radius }: { radius: number }) {
+export default function PrismScene({
+  radius,
+  sideNumber
+}: {
+  radius: number,
+  sideNumber: number
+}) {
   return (
     <div className="w-full h-full absolute inset-0">
       <Canvas
@@ -14,33 +20,39 @@ export default function CylinderScene({ radius }: { radius: number }) {
         <ambientLight intensity={0.6} />
         <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
         <directionalLight position={[-5, 5, -5]} intensity={0.4} />
-        <Cylinder radius={radius} />
+        <Prism radius={radius} sideNumber={sideNumber} />
       </Canvas>
     </div>
   );
 }
 
-function Cylinder({ radius }: { radius: number }) {
+function Prism({
+  radius,
+  sideNumber
+}: {
+  radius: number,
+  sideNumber: number
+}) {
   const meshRef = useRef<THREE.Mesh>(null);
   const isDragging = useRef(false);
   const prevPointer = useRef({ x: 0, y: 0 });
   const velocity = useRef(new THREE.Quaternion());
 
-  const height =
-    (1500 - 2 * Math.PI * radius * radius) / (2 * Math.PI * radius);
+  const baseArea = (sideNumber / 2) * radius * radius * Math.sin((2 * Math.PI) / sideNumber);
+
+  const perimeter = 2 * sideNumber * radius * Math.sin(Math.PI / sideNumber);
+
+  const height = (1500 - 2 * baseArea) / perimeter;
 
   const applyRotation = (dx: number, dy: number) => {
     if (!meshRef.current) return;
 
-    // Eje horizontal de la pantalla (para rotación vertical del objeto)
     const axisX = new THREE.Vector3(1, 0, 0);
-    // Eje vertical de la pantalla (para rotación horizontal del objeto)
     const axisY = new THREE.Vector3(0, 1, 0);
 
     const qX = new THREE.Quaternion().setFromAxisAngle(axisX, dy);
     const qY = new THREE.Quaternion().setFromAxisAngle(axisY, dx);
 
-    // Combina ambos ejes en un solo quaternion (diagonal incluido)
     const delta = qY.multiply(qX);
 
     meshRef.current.quaternion.premultiply(delta);
@@ -49,7 +61,6 @@ function Cylinder({ radius }: { radius: number }) {
 
   useFrame(() => {
     if (!meshRef.current || isDragging.current) return;
-    // Inercia: interpola el quaternion de velocidad hacia identidad
     velocity.current.slerp(new THREE.Quaternion(), 0.08);
     meshRef.current.quaternion.premultiply(velocity.current);
   });
@@ -83,7 +94,7 @@ function Cylinder({ radius }: { radius: number }) {
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
     >
-      <cylinderGeometry args={[radius, radius, height, 64]} />
+      <cylinderGeometry args={[radius, radius, height, sideNumber]} />
       <meshStandardMaterial wireframe />
     </mesh>
   );
