@@ -19,7 +19,7 @@ export default function PrismPage() {
                     Ajusta los parametros para visualizar la forma
                 </p>
             </div>
-            <div className="flex-1 grid grid-cols-[1fr_25%] gap-6">
+            <div className="flex-1 md:grid md:grid-cols-[1fr_25%] gap-6">
                 <div className="flex flex-col gap-2">
 
                     {/* <div className="">
@@ -37,7 +37,9 @@ export default function PrismPage() {
                         onRadiusChange={setRadius}
                     />
                 </div>
-                <PrismControlPanel sideNumber={sideNumber} radius={radius} volume={volume} onSidesChange={setSideNumber}/>
+                <div className="pt-2 md:pt-0">
+                    <PrismControlPanel sideNumber={sideNumber} radius={radius} volume={volume} onSidesChange={setSideNumber} />
+                </div>
             </div>
 
         </div>
