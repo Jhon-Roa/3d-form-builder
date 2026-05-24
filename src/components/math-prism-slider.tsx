@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Card, Slider, Text, Flex, Box } from "@radix-ui/themes";
-import { evaluate } from "mathjs";
+import { volumeCalc } from "../lib/utils";
 
 interface MathPrismSliderProps {
     radius: number[];
@@ -23,21 +23,9 @@ function getMaxRadius(n: number) {
 
 function MathPrismSlider({ radius, sideNumber, onVolumeChange, onRadiusChange }: MathPrismSliderProps) {
 
-    const expr =
-        "750*r*cos(pi/n) - n*r^3*sin(pi/n)*cos(pi/n)^2";
-
     useEffect(() => {
-        catchValue()
+        onVolumeChange(volumeCalc({radius, sideNumber}))
     }, [radius])
-
-    const catchValue = () => {
-        const volume = evaluate(expr, {
-            r: radius[0],
-            n: sideNumber[0]
-        })
-
-        onVolumeChange(volume)
-    }
 
     const min = 0;
     const max = getMaxRadius(sideNumber[0]);

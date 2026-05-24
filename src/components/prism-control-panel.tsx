@@ -1,21 +1,27 @@
 "use client";
 
 import { Card, Flex, Box, Heading, Text, Slider, Code } from "@radix-ui/themes";
-import { getSimplifiedExpression } from "../lib/utils";
+import { getSimplifiedExpression, volumeCalc } from "../lib/utils";
+import { useEffect } from "react";
 
 export default function PrismControlPanel({
   sideNumber,
   radius,
   volume,
+  onVolumeChange,
   onSidesChange,
 }: {
   sideNumber: number[];
   radius: number[];
   volume: number;
+  onVolumeChange: (value: number) => void;
   onSidesChange: (value: number[]) => void;
 }) {
+  useEffect(() => {
+    onVolumeChange(volumeCalc({ radius, sideNumber }))
+  }, [sideNumber])
+
   const expression = getSimplifiedExpression(sideNumber[0])
-   
 
   const maxRadius = Math.sqrt(
     1500 / (sideNumber[0] * Math.sin((2 * Math.PI) / sideNumber[0]))
@@ -38,7 +44,7 @@ export default function PrismControlPanel({
             Configuracion del prisma
           </Heading>
           <Text size="2" color="gray">
-            Explora como el numero de lados afecta a la geometria, altura y 
+            Explora como el numero de lados afecta a la geometria, altura y
             volumen del prisma
           </Text>
         </Box>

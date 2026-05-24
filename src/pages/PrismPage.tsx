@@ -40,7 +40,7 @@ export default function PrismPage() {
                     />
                 </div>
                 <div className="pt-2 md:pt-0">
-                    <PrismControlPanel sideNumber={sideNumber} radius={radius} volume={volume} onSidesChange={setSideNumber} />
+                    <PrismControlPanel sideNumber={sideNumber} radius={radius} volume={volume} onVolumeChange={setVolume} onSidesChange={setSideNumber} />
                 </div>
             </div>
 
