@@ -10,7 +10,7 @@ export default function PrismPage() {
     const [volume, setVolume] = useState<number>(0)
 
     return (
-        <div className="max-w-7xl mx-auto min-h-full h-[calc(100vh-3.5rem)] flex flex-col gap-6 ">
+        <div className="max-w-7xl mx-auto min-h-full md:h-[calc(100vh-3.5rem)] flex flex-col gap-6 ">
             <div>
                 <h2 className="text-xl font-semibold text-foreground">
                     {sideNumber[0] !== 64

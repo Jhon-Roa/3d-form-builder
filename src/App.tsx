@@ -1,6 +1,5 @@
 "use client";
 
-import { Header } from '@radix-ui/themes/components/table';
 // import { PageSidebar } from './components/page-sidebar';
 import PrismPage from './pages/PrismPage';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -14,8 +13,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 export default function Page() {
 
   return (
-    <div className="min-h-full bg-background flex flex-col">
-      <Header />
+    <div className="bg-background flex flex-col">
       
       <div className="flex flex-1">
         <main className="flex-1 p-6">
