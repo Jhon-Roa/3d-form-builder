@@ -13,7 +13,9 @@ export default function PrismPage() {
         <div className="max-w-7xl mx-auto min-h-full h-[calc(100vh-3.5rem)] flex flex-col gap-6 ">
             <div>
                 <h2 className="text-xl font-semibold text-foreground">
-                    Prisma de {sideNumber} lados
+                    {sideNumber[0] !== 64
+                        ? `prisma de ${sideNumber[0]} lados`
+                        : "cilindro"}
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
                     Ajusta los parametros para visualizar la forma

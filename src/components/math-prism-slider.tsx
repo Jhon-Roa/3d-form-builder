@@ -48,7 +48,7 @@ function MathPrismSlider({ radius, sideNumber, onVolumeChange, onRadiusChange }:
             <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
                     <Text size="2" weight="medium" color="gray">
-                        Radio del cilindro
+                        Radio del prisma
                     </Text>
                 </Flex>
 
